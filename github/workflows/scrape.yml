@@ -1,26 +1,26 @@
-name: Playwright Table Scraper
+name: Playwright QA Automation
 
 on:
-  workflow_dispatch:
   push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  scrape:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '20'
+          python-version: '3.11'
 
-      - name: Install dependencies
-        run: npm install playwright
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install
 
-      - name: Install Playwright browsers
-        run: npx playwright install chromium
-
-      - name: Scrape tables - 23f2003863@ds.study.iitm.ac.in
-        run: node scrape.js
+      - name: Run Table Sum Script - 23f2003863@ds.study.iitm.ac.in
+        run: python sum_tables.py
